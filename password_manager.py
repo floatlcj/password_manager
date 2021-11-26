@@ -2,7 +2,14 @@ import re
 import random
 import string
 import sys
-import pyperclip
+def impyperclip():
+    try:
+        import pyperclip
+    except ImportError:
+        import os
+        os.system('python3 -m pip install pyperclip')
+impyperclip() 
+    
 
 
 def encry(p,k):
