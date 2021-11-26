@@ -9,3 +9,5 @@ This program will store your passwords. The passwords will be encrypted by keys 
 3. Update Passwords
 4. Password strength analysis
 5. Password generator
+6. Password encryption
+7. Autocopy to clipboard
