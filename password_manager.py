@@ -7,7 +7,10 @@ def impyperclip():
         import pyperclip
     except ImportError:
         import os
-        os.system('python3 -m pip install pyperclip')
+        if os.name == 'posix':
+            os.system('python3 -m pip install pyperclip')
+        elif os.name == 'nt':
+            os.system('python -m pip install pyperclip')
 impyperclip() 
     
 
