@@ -3,6 +3,10 @@ import random
 import string
 import sys
 def impyperclip():
+    """
+    This function will check if the computer has installed pyperclip.
+    If not, it will install itself, work on both Mac and Windows.
+    """
     try:
         import pyperclip
     except ImportError:
@@ -65,49 +69,8 @@ def decryF(cp,key):
     return pa
 
 
-def mySplit(text, sep):
-    """
-    This function can split strings. You can define your
-    separators, and it will return a list of the split
-    string.
-    """
-
-    split_text = []
-    temp = ''
-    con = True
-    for x in text:
-        c = False
-        for s in sep:
-            if x == s:
-                c = True
-                break
-            else:
-                c = False
-        if c == False:
-            temp += x
-            con = False
-        elif c == True and con == False:
-            split_text.append(temp)
-            temp = ''
-            con = True
-
-    return split_text
 
 
-##with open('password.txt','a') as inpa:
-##    inpa.write(key)
-##    inpa.write(',')
-##    inpa.write(item)
-##    inpa.write('\n')
-#with open('password.txt','r') as repa:
-    #templ = repa.readlines()
-    #print(templ)
-    #dic = {}
-    #for x in templ:
-        #xl = x.split(',')
-        #xl = xl[:-1]
-        #dic[xl[0]] = xl[1]
-    #print(dic)
 
 def read_file_list(filename):
     """
@@ -157,10 +120,6 @@ def store_password(name,password,key):
 
 
 
-#store_password('bilibili','ilovenasa','991030')
-#store_password('tencent','ilovegirls','991030')
-#store_password('netease','ilovelol','991030')
-#store_password('WeChat','Lcj200268.','991030')
 
 def retrieve_password(name,key):
     """
@@ -206,9 +165,6 @@ def update_password(name,oldpass,newpass,oldkey,newkey):
         return 'The name does not exist.'
 
 
-
-#update_password('bilibili','ilovenasa','thisisatest','991030','200268')
-#print(retrieve_password('bilibili','200268'))
 def password_stren(password):
     """
     This function check the strength of a password.
@@ -248,6 +204,9 @@ def password_generator():
     return random_password
 
 def main():
+    """
+    The main function. Program interface.
+    """
     print('1. Store password.')
     print('2. Retrieve password.')
     print('3. Update password.')
