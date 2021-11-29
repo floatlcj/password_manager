@@ -2,6 +2,22 @@ import re
 import random
 import string
 import sys
+import os
+def imcolorama():
+    """
+    This function will check if the computer has installed colorama.
+    If not, it will install itself, work on both Mac and Windows.
+    """
+    try:
+        import colorama
+    except ImportError:
+        if os.name == "posix":
+            os.system("python3 -m pip install colorama")
+        elif os.name == "nt":
+            os.system("python -m pip install colorama")
+imcolorama()
+import colorama
+from colorama import Fore
 def impyperclip():
     """
     This function will check if the computer has installed pyperclip.
@@ -10,7 +26,6 @@ def impyperclip():
     try:
         import pyperclip
     except ImportError:
-        import os
         if os.name == 'posix':
             os.system('python3 -m pip install pyperclip')
         elif os.name == 'nt':
@@ -207,6 +222,8 @@ def main():
     """
     The main function. Program interface.
     """
+    print('\n\n')
+    print(Fore.YELLOW)
     print('1. Store password.')
     print('2. Retrieve password.')
     print('3. Update password.')
@@ -214,46 +231,97 @@ def main():
     print('5. Password Generator')
     print('6. Exit.')
     c = int(input('Enter your choice:'))
+    print(Fore.RESET)
     if c == 1:
+        print(Fore.GREEN)
         name = str(input('What is the name of the password:'))
-        password = str(input('What is the password:'))
-        key = str(input('What is the key to encrypt the password:'))
-        store_password(name,password,key)
+        names = read_file_list('names.txt')
+        print(Fore.RESET)
+        if name in names:
+            print("\n")
+            print(Fore.RED + 'The name already exists.')
+            print(Fore.RESET)
+        else:
+            print(Fore.GREEN)
+            password = str(input('What is the password:'))
+            key = str(input('What is the key to encrypt the password:'))
+            print('\n')
+            print(Fore.BLUE)
+            store_password(name,password,key)
+            print(Fore.RESET)
     elif c == 3:
+        print(Fore.GREEN)
         name = str(input('What is the name of the password:'))
-        oldpass = str(input('What is your old password:'))
-        oldkey = str(input('What is your old key:'))
-        newpass = str(input('What is your new password:'))
-        newkey = str(input('What is your new key:'))
-        result = update_password(name,oldpass,newpass,oldkey,newkey)
-        if result == 'The update is successful.':
-            print(result)
-            password_stren(newpass)
+        names = read_file_list('names.txt')
+        if name not in names:
+            print("\n")
+            print(Fore.RED)
+            print("This name does not exist.")
         else:
-            print(result)
+            print(Fore.GREEN)
+            oldpass = str(input('What is your old password:'))
+            oldkey = str(input('What is your old key:'))
+            passwords = read_file_list('password.txt')
+            if oldpass != decryF(passwords[names.index(name)],oldkey):
+                print("\n")
+                print(Fore.RED)
+                print('The old password or old key is incorrect.')
+            else:
+                print(Fore.GREEN)
+                newpass = str(input('What is your new password:'))
+                newkey = str(input('What is your new key:'))
+                result = update_password(name,oldpass,newpass,oldkey,newkey)
+                print(Fore.BLUE)
+                if result == 'The update is successful.':
+                    print("\n")
+                    print(result)
+                    password_stren(newpass)
+                else:
+                    print(result)
+        print(Fore.RESET)
     elif c == 2:
+        print(Fore.GREEN)
         name = str(input('What is the name of the password:'))
-        key = str(input('What is the key:'))
-        password = retrieve_password(name,key)
-        if password == 'This name does not exist.':
-            print(password)
+        names = read_file_list('names.txt')
+        if name not in names:
+            print("\n")
+            print(Fore.RED)
+            print("The name does not exit.")
         else:
-            print('The password is:',password)
-            pyperclip.copy(password)
-            print('The password is copied to your clipboard.')
+            print(Fore.GREEN)
+            key = str(input('What is the key:'))
+            password = retrieve_password(name,key)
+            if password == 'This name does not exist.':
+                print(password)
+            else:
+                print(Fore.BLUE)
+                print("\n")
+                print('The password is:',password)
+                pyperclip.copy(password)
+                print('The password is copied to your clipboard.')
+        print(Fore.RESET)
     elif c == 4:
+        print(Fore.GREEN)
         password = str(input('Enter a password:'))
+        print('\n')
+        print(Fore.BLUE)
         password_stren(password)
+        print(Fore.RESET)
 
     elif c == 5 :
+        print(Fore.BLUE)
         password = password_generator()
+        print('\n')
         print('The random password is:',password)
         pyperclip.copy(password)
         print('The random number is copied to your clipboard.')
+        print(Fore.RESET)
     elif c == 6:
         sys.exit()
     else:
+        print(Fore.RED)
         print('Your choice is invalid.')
+        print(Fore.RESET)
 while True:
     if __name__ == '__main__':
         main()
