@@ -13,7 +13,7 @@ def impyperclip():
             os.system('python -m pip install pyperclip')
 impyperclip() 
     
-
+import pyperclip
 
 def encry(p,k):
     """"
@@ -295,5 +295,6 @@ def main():
         sys.exit()
     else:
         print('Your choice is invalid.')
-if __name__ == '__main__':
-    main()
+while True:
+    if __name__ == '__main__':
+        main()
