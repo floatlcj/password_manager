@@ -15,9 +15,14 @@ def imcolorama():
             os.system("python3 -m pip install colorama")
         elif os.name == "nt":
             os.system("python -m pip install colorama")
-        import colorama
+
+
 imcolorama()
+
+
 from colorama import Fore
+
+
 def impyperclip():
     """
     This function will check if the computer has installed pyperclip.
@@ -30,8 +35,13 @@ def impyperclip():
             os.system('python3 -m pip install pyperclip')
         elif os.name == 'nt':
             os.system('python -m pip install pyperclip')
-        import pyperclip
-impyperclip() 
+
+
+impyperclip()
+
+
+import pyperclip
+
 
 def encry(p,k):
     """"
@@ -53,6 +63,7 @@ def decry(c,k):
     p = (c-k) % 95 + 32
     return chr(p)
 
+
 def encryF(pa,key):
     """"
     This function encrypt the password based on given
@@ -66,6 +77,7 @@ def encryF(pa,key):
         cp += encry(p,keys[i])
         i += 1
     return cp
+
     
 def decryF(cp,key):
     """
@@ -83,9 +95,6 @@ def decryF(cp,key):
     return pa
 
 
-
-
-
 def read_file_list(filename):
     """
     This function read the password file and returns
@@ -101,9 +110,6 @@ def read_file_list(filename):
             newlist.append(nx)
         refile.close()
     return newlist
-
-
-
 
 
 def store_password(name,password,key):
@@ -128,11 +134,9 @@ def store_password(name,password,key):
             inpa.write(npass)
             inpa.write('\n')
             inpa.close()
-        return print('Password stored.'),password_stren(password)
+        return print(Fore.LIGHTBLUE_EX + 'Password stored.'),password_stren(password)
     else:
         return 'The name already exists. Please use Update Password function.'
-
-
 
 
 def retrieve_password(name,key):
@@ -152,8 +156,6 @@ def retrieve_password(name,key):
     else:
         return 'This name does not exist.'
 
-#retrieve_password('Tencent','991030')
-#print(read_file_dic('password.txt'))
 
 def update_password(name,oldpass,newpass,oldkey,newkey):
     """
@@ -184,11 +186,14 @@ def password_stren(password):
     This function check the strength of a password.
     Strong, medium, and weak.
     """
+
     l = False
     d = False
     low = False
     up = False
     sym = False
+    lb = Fore.LIGHTBLUE_EX
+    lc = Fore.LIGHTCYAN_EX
     if len(password) >= 8:
         l = True
     if re.search(r'\d',password):
@@ -200,15 +205,16 @@ def password_stren(password):
     if re.search(r'[!@#$%^&*()_+=|?/.,]',password):
         sym = True
     if l == True and d == True and low == True and up == True and sym == True:
-        return print('The password strength is strong.')
+        return print(lb + 'The password strength is' + lc + ' strong.')
     elif l == d == low == up == True:
-        return print('The password strength is medium.')
+        return print(lb + 'The password strength is' + lc + ' medium.')
     elif l == d == low == True:
-        return print('The password strength is medium.')
+        return print(lb + 'The password strength is' + lc + ' medium.')
     elif l == d == True:
-        return print('The password strength is weak.')
+        return print(lb + 'The password strength is' + lc + ' weak.')
     else:
-        return print('The password strength is weak.')
+        return print(lb + 'The password strength is' + lc + ' weak.')
+
 
 def password_generator():
     """
@@ -217,110 +223,86 @@ def password_generator():
     random_password = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + string.punctuation)for i in range(16))
     return random_password
 
+
 def main():
     """
     The main function. Program interface.
     """
     print('\n\n')
-    print(Fore.YELLOW)
-    print('1. Store password.')
+    print(Fore.LIGHTMAGENTA_EX + '1. Store password.')
     print('2. Retrieve password.')
     print('3. Update password.')
     print('4. Check password strength.')
     print('5. Password Generator')
     print('6. Exit.')
     c = int(input('Enter your choice:'))
-    print(Fore.RESET)
     if c == 1:
-        print(Fore.GREEN)
-        name = str(input('What is the name of the password:'))
+        name = str(input(Fore.LIGHTGREEN_EX + 'What is the name of the password:'))
         names = read_file_list('names.txt')
-        print(Fore.RESET)
         if name in names:
             print("\n")
             print(Fore.RED + 'The name already exists.')
-            print(Fore.RESET)
         else:
-            print(Fore.GREEN)
-            password = str(input('What is the password:'))
+            password = str(input(Fore.LIGHTGREEN_EX + 'What is the password:'))
             key = str(input('What is the key to encrypt the password:'))
             print('\n')
-            print(Fore.BLUE)
             store_password(name,password,key)
-            print(Fore.RESET)
     elif c == 3:
-        print(Fore.GREEN)
-        name = str(input('What is the name of the password:'))
+        name = str(input(Fore.LIGHTGREEN_EX + 'What is the name of the password:'))
         names = read_file_list('names.txt')
         if name not in names:
             print("\n")
-            print(Fore.RED)
-            print("This name does not exist.")
+            print(Fore.RED + "This name does not exist.")
         else:
-            print(Fore.GREEN)
-            oldpass = str(input('What is your old password:'))
+            oldpass = str(input(Fore.LIGHTGREEN_EX + 'What is your old password:'))
             oldkey = str(input('What is your old key:'))
             passwords = read_file_list('password.txt')
             if oldpass != decryF(passwords[names.index(name)],oldkey):
                 print("\n")
-                print(Fore.RED)
-                print('The old password or old key is incorrect.')
+                print(Fore.RED + 'The old password or old key is incorrect.')
             else:
-                print(Fore.GREEN)
-                newpass = str(input('What is your new password:'))
+                newpass = str(input(Fore.LIGHTGREEN_EX + 'What is your new password:'))
                 newkey = str(input('What is your new key:'))
                 result = update_password(name,oldpass,newpass,oldkey,newkey)
-                print(Fore.BLUE)
                 if result == 'The update is successful.':
                     print("\n")
-                    print(result)
+                    print(Fore.LIGHTBLUE_EX + result)
                     password_stren(newpass)
                 else:
                     print(result)
-        print(Fore.RESET)
     elif c == 2:
-        print(Fore.GREEN)
-        name = str(input('What is the name of the password:'))
+        name = str(input(Fore.LIGHTGREEN_EX + 'What is the name of the password:'))
         names = read_file_list('names.txt')
         if name not in names:
             print("\n")
-            print(Fore.RED)
-            print("The name does not exit.")
+            print(Fore.RED + "The name does not exit.")
         else:
-            print(Fore.GREEN)
-            key = str(input('What is the key:'))
+            key = str(input(Fore.LIGHTGREEN_EX + 'What is the key:'))
             password = retrieve_password(name,key)
             if password == 'This name does not exist.':
                 print(password)
             else:
-                print(Fore.BLUE)
                 print("\n")
-                print('The password is:',password)
+                print(Fore.LIGHTBLUE_EX + 'The password is:' + Fore.LIGHTCYAN_EX, password)
                 pyperclip.copy(password)
-                print('The password is copied to your clipboard.')
-        print(Fore.RESET)
+                print(Fore.LIGHTBLUE_EX + 'The password is copied to your clipboard.')
     elif c == 4:
-        print(Fore.GREEN)
-        password = str(input('Enter a password:'))
+        password = str(input(Fore.LIGHTGREEN_EX + 'Enter a password:'))
         print('\n')
-        print(Fore.BLUE)
         password_stren(password)
-        print(Fore.RESET)
 
-    elif c == 5 :
-        print(Fore.BLUE)
+    elif c == 5:
         password = password_generator()
         print('\n')
-        print('The random password is:',password)
+        print(Fore.LIGHTBLUE_EX + 'The random password is:' + Fore.LIGHTCYAN_EX, password)
         pyperclip.copy(password)
-        print('The random number is copied to your clipboard.')
-        print(Fore.RESET)
+        print(Fore.LIGHTBLUE_EX + 'The random number is copied to your clipboard.')
     elif c == 6:
         sys.exit()
     else:
-        print(Fore.RED)
-        print('Your choice is invalid.')
-        print(Fore.RESET)
+        print(Fore.RED + 'Your choice is invalid.')
+
+
 while True:
     if __name__ == '__main__':
         main()
