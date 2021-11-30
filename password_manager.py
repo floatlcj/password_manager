@@ -15,8 +15,8 @@ def imcolorama():
             os.system("python3 -m pip install colorama")
         elif os.name == "nt":
             os.system("python -m pip install colorama")
+        import colorama
 imcolorama()
-import colorama
 from colorama import Fore
 def impyperclip():
     """
@@ -30,9 +30,8 @@ def impyperclip():
             os.system('python3 -m pip install pyperclip')
         elif os.name == 'nt':
             os.system('python -m pip install pyperclip')
+        import pyperclip
 impyperclip() 
-    
-import pyperclip
 
 def encry(p,k):
     """"
